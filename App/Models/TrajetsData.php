@@ -1,6 +1,5 @@
 <?php
-
-    $id = $_POST['id'];
+    $contact = $_SESSION['user_id'];
     $depart = $_POST['depart'];
     $arrivee = $_POST['arrivee'];
     $date_depart = $_POST['date_depart'];

@@ -16,13 +16,13 @@
             //CONFIGURATION DES OPTIONS D'ERREUR PDO
 
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             
         } catch(PDOException $e) {
 
             //GESTION DES ERREURS
-            require '../Views/erreur.php';
             echo 'Erreur de connexion: '.$e->getMessage();
+            require __DIR__.'/../Views/erreur.php';
+
 
 
         }

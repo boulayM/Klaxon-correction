@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Controllers;
+
+class FlashMessageController {
+
+
 /**
  * 
  * CONTROLEUR DE GENERATION DE MESSAGES FLASH
@@ -9,7 +14,7 @@
  * 
  */
 
-function setFlashMessage($message, $type = 'info') {
+public static function setFlashMessage($message, $type = 'info') {
     $_SESSION['flash_message'] = [
         'message' => $message,
         'type' => $type
@@ -17,14 +22,20 @@ function setFlashMessage($message, $type = 'info') {
 }
 
 
-function displayFlashMessage() {
+public static function displayFlashMessage() {
     if (isset($_SESSION['flash_message'])) {
         $message = $_SESSION['flash_message']['message'];
         $type = $_SESSION['flash_message']['type'];
 
         echo "<div class='flash-message flash-{$type}'>{$message}</div>";
 
-        unset($_SESSION['flash_message']);
-    }
+        // Clear the message after displaying it
+}
+}
+
+public static function clearFlashMessage() {
+    unset($_SESSION['flash_message']);
+}
+
 }
 ?>

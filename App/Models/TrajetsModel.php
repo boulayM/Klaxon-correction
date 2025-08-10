@@ -32,21 +32,21 @@ $result = $trajets->findAll(
     ORDER BY date_depart ASC");
 
 return $result;
+
 }
-/*
-function addTrajet() {
 
-require './Models/TrajetsData.php';
-
-return add (
+public function addTrajet() {
+require __DIR__.'/TrajetsData.php';
+$trajets = new TrajetsController;
+$trajetAdd = $trajets->add(
     "INSERT INTO trajets 
     (depart, arrivee, date_depart, heure_depart, date_arrivee, heure_arrivee, nbr_places, places_dispo, contact) 
     VALUES ('$depart', '$arrivee', '$date_depart', '$heure_depart', '$date_arrivee', '$heure_arrivee', 
     '$nbr_places', '$places_dispo', '$contact')"
 );
-
+return $trajetAdd;
 }
-
+/*
 
 function updateTrajet() {
 

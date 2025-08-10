@@ -39,7 +39,7 @@
     </nav>
 </header>
 <body>    
-    <h5 class="ms-3 mt-3"><?php displayFlashMessage();?></h5>
+    <h5 class="ms-3 mt-3"><?php //FlashMessageController::displayFlashMessage();?></h5>
     <div class="container mt-5">
         <table class="table table-striped">
             <thead>
@@ -80,6 +80,7 @@
             </tbody>
         </table>
   </div>
+  <?php include __DIR__.'/Partials/addTrajet.php'?>
 </body>
     <?php include __DIR__.'/Partials/footer.php'?>
 </html>

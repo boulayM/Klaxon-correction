@@ -9,7 +9,6 @@ if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER ['HTTPS'])){
 $uri .= $_SERVER['HTTP_HOST'];
 */
 
-
 $prefixUrl = '/Klaxon-correction/';
 $url = $_SERVER['REQUEST_URI'];
 
@@ -26,6 +25,10 @@ if ($url == $prefixUrl.'App/Core/session.php') {
 if ($url == $prefixUrl.'App/Core/logout.php') {
 
     require '../App/Controllers/AccueilController.php';
+} 
+if ($url == $prefixUrl.'App/Controllers/TrajetsController.php') {
+
+    require '../App/Controllers/UsersController.php';
 } 
 
 /*

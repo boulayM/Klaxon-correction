@@ -1,8 +1,16 @@
 <?php
 namespace App\Controllers;
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $addTrajet = new TrajetsController();
+    if ($action === 'add') {
+        $addTrajet->add();
+    }
+}
+
 class TrajetsController {
-function findAll($stmt) {
+public function findAll($stmt) {
 
 require __DIR__.'/../Core/Database.php';
 
@@ -12,34 +20,44 @@ return $result;
 
 }
 
-function add() {
+public function add() {
 
 session_start();
-require '../Core/Database.php';
-require './Controllers/FlashMessageController.php';
+require __DIR__.'/../Core/Database.php';
 
-
-$trajets = $pdo->query($stmt);
-$result = $trajets->execute();
+    $contact = $_SESSION['user_id'];
+    $depart = $_POST['depart'];
+    $arrivee = $_POST['arrivee'];
+    $date_depart = $_POST['date_depart'];
+    $heure_depart = $_POST['heure_depart'];
+    $date_arrivee = $_POST['date_arrivee'];
+    $heure_arrivee = $_POST['heure_arrivee'];
+    $nbr_places = $_POST['nbr_places'];
+    $places_dispo = $_POST['places_dispo'];
 
 if ($depart == $arrivee or $date_depart > $date_arrivee OR $heure_depart > $heure_arrivee 
 OR $nbr_places < 1 or $places_dispo < 1 or $places_dispo > $nbr_places) {
 
-    return $result;
-    setFlashMessage("Données inconsistentes, veuillez vérifier vos données");
-    header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
+    require __DIR__.'/UsersController.php';
 
     exit();
 }
-if ($conn->query($sql) === TRUE) {
-  setFlashMessage("Trajet crée avec succés!");
+    $stmt = $pdo->prepare("INSERT INTO trajets 
+    (depart, arrivee, date_depart, heure_depart, date_arrivee, heure_arrivee, nbr_places, places_dispo, contact) 
+    VALUES (:depart, :arrivee, :date_depart, :heure_depart, :date_arrivee, :heure_arrivee, :nbr_places, :places_dispo, :contact)");
 
-} else {
-  setFlashMessage("Il y a eu une erreur lors du traitement de vos données.");
-
-}
-
-
+    $stmt->bindParam(':depart', $depart);
+    $stmt->bindParam(':arrivee', $arrivee);
+    $stmt->bindParam(':date_depart', $date_depart);
+    $stmt->bindParam(':heure_depart', $heure_depart);
+    $stmt->bindParam(':date_arrivee', $date_arrivee);
+    $stmt->bindParam(':heure_arrivee', $heure_arrivee);
+    $stmt->bindParam(':nbr_places', $nbr_places);
+    $stmt->bindParam(':places_dispo', $places_dispo);
+    $stmt->bindParam(':contact', $contact);
+    $stmt->execute();
+  require __DIR__.'/UsersController.php';
+          exit;
 
 }
 
@@ -53,12 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier']))
     $trajets = $pdo->query($stmt);
     $result = $trajets->execute();
     if ($trajets->execute()) {
-        setFlashMessage("Trajet modifié avec succés!");
-        header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
         return $result;
         exit;
         } else {
-        setFlashMessage("Erreur lors de la modification!" . $conn->error);
         header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
     }
     }
@@ -80,8 +95,6 @@ if (isset($_POST['supprimer'])) {
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        setFlashMessage("Trajet supprimé avec succés!");
-        header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
         exit;
     } else {
         echo "Erreur lors de la suppression.";

@@ -9,6 +9,7 @@
  * 
  * Réinitialiser toutes les variables de session
  */
+session_start();
 $_SESSION = [];
 
 /**
@@ -27,6 +28,7 @@ if (ini_get("session.use_cookies")) {
  * Détruit la session
  */
 session_destroy();
+require __DIR__.'/../Controllers/AccueilController.php';
 
 /**
  * 
