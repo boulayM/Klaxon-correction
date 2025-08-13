@@ -1,12 +1,28 @@
 <?php
-session_start();
-require __DIR__.'/Database.php';
+namespace App\Core;
+// Démarre la session
+use App\Core\Database;
+use PDO;
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $login = new Session();
+    if ($action === 'login') {
+        $login->Login();
+    }
+}
+
+
+class Session {
+    
+    public function Login() {
+
+    $db = Database::getInstance()->getConnection();
     $email = $_POST['email'];
     $password = $_POST['keypass'];
     
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -37,5 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Identifiants incorrects.";
         require '../Views/erreur.php';
     }
+
+    }
 }
+
+
+
 ?>

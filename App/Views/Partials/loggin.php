@@ -14,10 +14,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/Klaxon-correction/App/Core/session.php" method="post" class="form-control">
+                <form action="session" method="post" class="form-control">
 
             <fieldset>
-
+                <input type="hidden" name="action" value="login">
                 <label class="form-label" for="username">Votre e-mail</label>
                 <div class="form-group">
                     <input class="form-input" type="text" name="email" placeholder="email" id="username" required>

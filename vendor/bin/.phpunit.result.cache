@@ -1,1 +1,1 @@
-{"version":1,"defects":{"TrajetsTest::testGetTrajets":8},"times":{"TrajetsTest::testGetTrajets":0.005}}
+{"version":1,"defects":{"TrajetsTest::testGetTrajets":8,"TrajetsTest::testAddTrajet":8},"times":{"TrajetsTest::testGetTrajets":0.006,"TrajetsTest::testAddTrajet":0.003}}

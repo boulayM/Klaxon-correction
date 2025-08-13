@@ -8,7 +8,8 @@ if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER ['HTTPS'])){
 }
 $uri .= $_SERVER['HTTP_HOST'];
 */
-
+session_start();
+require_once __DIR__ . '/../vendor/autoload.php';
 $prefixUrl = '/Klaxon-correction/';
 $url = $_SERVER['REQUEST_URI'];
 
@@ -17,19 +18,20 @@ if ($url == $prefixUrl.'') {
     require '../App/Controllers/AccueilController.php';
 } 
 
-if ($url == $prefixUrl.'App/Core/session.php') {
+if ($url == $prefixUrl.'session') {
 
-    require '../App/Controllers/UsersController.php';
+    require '../App/Core/Session.php';
 }
 
-if ($url == $prefixUrl.'App/Core/logout.php') {
+if ($url == $prefixUrl.'logout') {
 
     require '../App/Controllers/AccueilController.php';
 } 
-if ($url == $prefixUrl.'App/Controllers/TrajetsController.php') {
 
-    require '../App/Controllers/UsersController.php';
-} 
+if ($url == $prefixUrl.'addTrajet') {
+
+    require '../App/Controllers/TrajetsController.php';
+}
 
 /*
 $request = $_SERVER['REQUEST_URI'];

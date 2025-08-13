@@ -1,4 +1,5 @@
 <?php
+session_start();
     $contact = $_SESSION['user_id'];
     $depart = $_POST['depart'];
     $arrivee = $_POST['arrivee'];

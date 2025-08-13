@@ -11,7 +11,7 @@ $trajets = new TrajetsController;
 $result = $trajets->findAll(
     
     "SELECT 
-    trajets.id,
+    trajets.id AS trajet_id,
     DATE_FORMAT(date_depart, '%d/%m/%Y') AS date_depart, 
     heure_depart,
     DATE_FORMAT(date_arrivee, '%d/%m/%Y') AS date_arrivee, 
