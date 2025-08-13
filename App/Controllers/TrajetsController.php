@@ -1,92 +1,162 @@
 <?php
+/**
+ * TrajetsController.php
+ * 
+ * This controller handles the management of trajets, including adding, updating, and deleting trajets.
+ * It interacts with the TrajetsModel to perform database operations.
+ */
 namespace App\Controllers;
 
+use App\Core\Database;
+use App\Controllers\FlashMessage;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    $addTrajet = new TrajetsController();
+    if ($action === 'add') {
+        $addTrajet->add();
+    }
+    elseif ($action === 'update') {
+        $addTrajet->update();
+    }
+    elseif ($action === 'delete') {
+        $addTrajet->delete();
+    }
+}
+
+
 class TrajetsController {
-function findAll($stmt) {
+/**
+ * Find all trajets
+ * @param string $stmt
+ * @return array
+ * 
+ */
 
-require __DIR__.'/../Core/Database.php';
+    
+public function findAll($stmt) {
 
-$trajets = $pdo->query($stmt);
+$db = Database::getInstance()->getConnection();
+$trajets = $db->query($stmt);
 $result = $trajets->fetchAll();
 return $result;
 
 }
+/**
+ * Add a new trajet
+ * @param string $depart
+ * @param string $arrivee
+ * @param string $date_depart
+ * @param string $heure_depart
+ * @param string $date_arrivee
+ * @param string $heure_arrivee
+ * @param int $nbr_places
+ * @param int $places_dispo
+ * @param string $contact
+ * * @return void
+ * 
+ */
+public function add() {
 
-function add() {
+require __DIR__.'/../Models/TrajetsData.php';
+$db = Database::getInstance()->getConnection();
 
-session_start();
-require '../Core/Database.php';
-require './Controllers/FlashMessageController.php';
-
-
-$trajets = $pdo->query($stmt);
-$result = $trajets->execute();
 
 if ($depart == $arrivee or $date_depart > $date_arrivee OR $heure_depart > $heure_arrivee 
 OR $nbr_places < 1 or $places_dispo < 1 or $places_dispo > $nbr_places) {
 
-    return $result;
-    setFlashMessage("Données inconsistentes, veuillez vérifier vos données");
-    header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
+    FlashMessage::set('error', 'Inconsistances dans les données du trajet. Veuillez vérifier les informations saisies.');
+    require __DIR__.'/UsersController.php';
 
     exit();
 }
-if ($conn->query($sql) === TRUE) {
-  setFlashMessage("Trajet crée avec succés!");
+    $stmt = $db->prepare("INSERT INTO trajets 
+    (depart, arrivee, date_depart, heure_depart, date_arrivee, heure_arrivee, nbr_places, places_dispo, contact) 
+    VALUES (:depart, :arrivee, :date_depart, :heure_depart, :date_arrivee, :heure_arrivee, :nbr_places, :places_dispo, :contact)");
 
-} else {
-  setFlashMessage("Il y a eu une erreur lors du traitement de vos données.");
+    $stmt->bindParam(':depart', $depart);
+    $stmt->bindParam(':arrivee', $arrivee);
+    $stmt->bindParam(':date_depart', $date_depart);
+    $stmt->bindParam(':heure_depart', $heure_depart);
+    $stmt->bindParam(':date_arrivee', $date_arrivee);
+    $stmt->bindParam(':heure_arrivee', $heure_arrivee);
+    $stmt->bindParam(':nbr_places', $nbr_places);
+    $stmt->bindParam(':places_dispo', $places_dispo);
+    $stmt->bindParam(':contact', $contact);
+    $stmt->execute();
+
+    FlashMessage::set('success', 'Trajet ajouté avec succés!');
+    require __DIR__.'/UsersController.php';
+    exit;
 
 }
 
+/**
+ * Update a trajet
+ * @param string $stmt
+ * @return void
+ * 
+ */
 
+public function update() {
+require __DIR__.'/FlashMessage.php';
+require __DIR__.'/../Models/TrajetsData.php';
+$db = Database::getInstance()->getConnection();
 
-}
-
-function update($stmt) {
-session_start();
-require '../Core/Database.php';
-require './Controllers/FlashMessageController.php';
+$id = $_POST['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) 
 {
-    $trajets = $pdo->query($stmt);
-    $result = $trajets->execute();
-    if ($trajets->execute()) {
-        setFlashMessage("Trajet modifié avec succés!");
-        header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
-        return $result;
-        exit;
-        } else {
-        setFlashMessage("Erreur lors de la modification!" . $conn->error);
-        header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
+    $stmt = $db->prepare("UPDATE trajets SET 
+    depart = '$depart', date_depart = '$date_depart', heure_depart = '$heure_depart', 
+    arrivee = '$arrivee', date_arrivee = '$date_arrivee', heure_arrivee = '$heure_arrivee',
+    nbr_places = '$nbr_places', places_dispo = '$places_dispo'  WHERE id = '$id'");
     }
-    }
-}
     
 
-
-function delete() {
-
-session_start();
-require '../Core/Database.php';
-require './Controllers/FlashMessageController.php';
-
-if (isset($_POST['supprimer'])) {
-    $id = intval($_POST['id']); // Sécuriser l'entrée
-
-    // Requête de suppression
-    $stmt = $conn->prepare("DELETE FROM trajets WHERE id = ?");
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        setFlashMessage("Trajet supprimé avec succés!");
-        header('Location: '.$uri.'/Klaxon-correction/views/usersPage.php');
+if ($stmt->execute()) {
+        FlashMessage::set('success', 'Trajet modifié avec succès!');
+        require __DIR__.'/UsersController.php';
         exit;
     } else {
-        echo "Erreur lors de la suppression.";
+        FlashMessage::set('error', 'Erreur lors de la modification du trajet.');
+        require __DIR__.'/UsersController.php';
+        exit;
     }
 }
-}
+
+/**
+ * Delete a trajet
+ * @return void
+ * 
+ */
+
+public function delete() {
+session_start();
+$db = Database::getInstance()->getConnection();
+
+
+
+    $id = $_POST['id']; // Sécuriser l'entrée
+
+    // Requête de suppression
+    $stmt = $db->prepare("DELETE FROM trajets WHERE id = :id");
+    $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
+
+    // Exécute la requête pour supprimer le trajet
+    if ($stmt->execute()) {
+        FlashMessage::set('success', 'Trajet supprimé avec succès!');
+        require __DIR__.'/UsersController.php';
+        exit;
+
+    } else {
+        FlashMessage::set('error', 'Erreur lors de la suppression du trajet.');
+        require __DIR__.'/UsersController.php';
+        exit;
+    }
 
 }
+
+
+}
+?>
