@@ -124,7 +124,7 @@ Modal pour supprimer le trajet
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="/Klaxon-correction/App/Controllers/TrajetsController.php" class="form-control">
+                <form method="post" action="deleteTrajet" class="form-control">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($trajet['trajet_id']); ?>">
                     <input type="hidden" name="action" value="delete">
                     <div class="p-3">
@@ -151,15 +151,13 @@ Modal pour modifier le trajet
             </div>
             <div class="modal-body">
 
-                <form action="/Klaxon-correction/App/Controllers/TrajetsController.php" method="post" class="form-control">
+                <form action="updateTrajet" method="post" class="form-control">
 
                     <fieldset>
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($trajet['trajet_id']); ?>">
                         <input type="hidden" name="action" value="update">
                         <label class="form-label" for="depart">Ville de départ</label>
                         <div class="form-group">
-                        <!--<input class="form-input" type="number" name="depart" id="depart" required>-->
-
                             <select name = "depart" required>
                                 <?php include __DIR__.'/Partials/listeVilles.php'; ?>
                             </select>
@@ -225,7 +223,7 @@ Modal pour créer un trajet
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/Klaxon-correction/App/Controllers/TrajetsController.php" method="post" class="form-control">
+                <form action="addTrajet" method="post" class="form-control">
                     <fieldset>
                         <legend>Informations du trajet</legend>
                         <input type="hidden" name="action" value="add">

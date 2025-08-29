@@ -20,5 +20,11 @@ class FlashMessage {
         }
         return null;
     }
+    public static function clear() {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        unset($_SESSION['flash']);
+    }
 }
 ?>

@@ -35,8 +35,9 @@ class Session {
         $_SESSION['user_prenom'] = $user['prenom'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_telephone'] = $user['telephone'];
+        $_SESSION['user_role'] = $user['role'];
 
-        require __DIR__.'/../Controllers/UsersController.php';
+        require __DIR__.'/../Controllers/UsersPageController.php';
         exit();
 
     } 
@@ -45,7 +46,10 @@ class Session {
         $_SESSION['user_data'] = true;
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['nom'];
-        require __DIR__.'/../Views/adminsPage.php';
+        $_SESSION['user_prenom'] = $user['prenom'];
+        $_SESSION['user_role'] = $user['role'];
+
+        require __DIR__.'/../Controllers/AdminsController.php';
 
     }
     

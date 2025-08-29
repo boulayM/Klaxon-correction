@@ -1,5 +1,4 @@
 <?php
-session_start();
     $contact = $_SESSION['user_id'];
     $depart = $_POST['depart'];
     $arrivee = $_POST['arrivee'];
@@ -9,3 +8,4 @@ session_start();
     $heure_arrivee = $_POST['heure_arrivee'];
     $nbr_places = $_POST['nbr_places'];
     $places_dispo = $_POST['places_dispo'];
+    
