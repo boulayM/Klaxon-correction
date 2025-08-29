@@ -6,7 +6,6 @@
  * It interacts with the TrajetsModel to perform database operations.
  */
 namespace App\Controllers;
-
 use App\Core\Database;
 use App\Controllers\FlashMessage;
 
@@ -66,7 +65,7 @@ if ($depart == $arrivee or $date_depart > $date_arrivee OR $heure_depart > $heur
 OR $nbr_places < 1 or $places_dispo < 1 or $places_dispo > $nbr_places) {
 
     FlashMessage::set('error', 'Inconsistances dans les données du trajet. Veuillez vérifier les informations saisies.');
-    require __DIR__.'/UsersController.php';
+    require __DIR__.'/UsersPageController.php';
 
     exit();
 }
@@ -86,7 +85,7 @@ OR $nbr_places < 1 or $places_dispo < 1 or $places_dispo > $nbr_places) {
     $stmt->execute();
 
     FlashMessage::set('success', 'Trajet ajouté avec succés!');
-    require __DIR__.'/UsersController.php';
+    require __DIR__.'/UsersPageController.php';
     exit;
 
 }
@@ -99,7 +98,6 @@ OR $nbr_places < 1 or $places_dispo < 1 or $places_dispo > $nbr_places) {
  */
 
 public function update() {
-require __DIR__.'/FlashMessage.php';
 require __DIR__.'/../Models/TrajetsData.php';
 $db = Database::getInstance()->getConnection();
 
@@ -116,11 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier']))
 
 if ($stmt->execute()) {
         FlashMessage::set('success', 'Trajet modifié avec succès!');
-        require __DIR__.'/UsersController.php';
+        require __DIR__.'/UsersPageController.php';
         exit;
     } else {
         FlashMessage::set('error', 'Erreur lors de la modification du trajet.');
-        require __DIR__.'/UsersController.php';
+        require __DIR__.'/UsersPageController.php';
         exit;
     }
 }
@@ -132,10 +130,7 @@ if ($stmt->execute()) {
  */
 
 public function delete() {
-session_start();
 $db = Database::getInstance()->getConnection();
-
-
 
     $id = $_POST['id']; // Sécuriser l'entrée
 
@@ -144,14 +139,21 @@ $db = Database::getInstance()->getConnection();
     $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
 
     // Exécute la requête pour supprimer le trajet
-    if ($stmt->execute()) {
+    if ($stmt->execute()) { 
+            if ($_SESSION['user_role'] !== 'admin') {
+
         FlashMessage::set('success', 'Trajet supprimé avec succès!');
-        require __DIR__.'/UsersController.php';
+        require __DIR__.'/UsersPageController.php';
         exit;
+    
+        } else {
+        FlashMessage::set('success', 'Trajet supprimé avec succès!');
+        require __DIR__.'/AdminsController.php';
+        }
 
     } else {
         FlashMessage::set('error', 'Erreur lors de la suppression du trajet.');
-        require __DIR__.'/UsersController.php';
+        require __DIR__.'/UsersPageController.php';
         exit;
     }
 

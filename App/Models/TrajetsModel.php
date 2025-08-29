@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 class TrajetsModel {
 
-public function getTrajets() {
+public static function getTrajets() {
 $trajets = new TrajetsController;
 $result = $trajets->findAll(
     

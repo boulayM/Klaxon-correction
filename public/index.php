@@ -33,6 +33,29 @@ if ($url == $prefixUrl.'addTrajet') {
     require '../App/Controllers/TrajetsController.php';
 }
 
+if ($url == $prefixUrl.'updateTrajet') {
+
+    require '../App/Controllers/TrajetsController.php';
+}
+
+if ($url == $prefixUrl.'deleteTrajet') {
+
+    require '../App/Controllers/TrajetsController.php';
+}
+ if ($url == $prefixUrl.'addAgence') {
+
+    require '../App/Controllers/AgencesController.php';
+}
+
+if ($url == $prefixUrl.'updateAgence') {
+
+    require '../App/Controllers/AgencesController.php';
+}
+
+if ($url == $prefixUrl.'deleteAgence') {
+
+    require '../App/Controllers/AgencesController.php';
+}
 /*
 $request = $_SERVER['REQUEST_URI'];
 $viewDir = '/../App/Views/';

@@ -43,7 +43,7 @@ class Database {
     private function __clone() {}
 
     // Empêche la désérialisation de l'instance
-    private function __wakeup() {}
+    public function __wakeup() {}
 }
 
 /* Exemple d'utilisation

@@ -2,39 +2,46 @@
 
 use PHPUnit\Framework\TestCase;
 use App\Controllers\TrajetsController;
+use App\Models\TrajetsModel;
 require_once __DIR__.'/../vendor/autoload.php';
 
 class TrajetsTest extends TestCase {
 
-    public function testGetTrajets() {
+    /**
+     * Test to check if the findAll method returns an array
+     */
 
-        $trajetsModel = new \App\Models\TrajetsModel();
-        $resultat = $trajetsModel->getTrajets();
-        $this->assertIsArray($resultat);
+    public function testFindAll() {
         
-    }
+        $result = TrajetsModel::getTrajets();
+        $this->assertIsArray($result);
+    } 
+    /**
+     * Test to check if the add method works correctly
+     * This test assumes that the database is set up correctly and the user_id is 1
+     */
 
-    public function testAddTrajet() {
+    public function testAdd() {
+
+        
+        $depart = 1; // Assuming depart ID is 1
+        $arrivee = 2; // Assuming arrivee ID is 2
+        $date_depart = '2033-10-01';
+        $heure_depart = '10:00';
+        $date_arrivee = '2033-10-01';
+        $heure_arrivee = '12:00';
+        $nbr_places = 4;
+        $places_dispo = 4;
+        $contact = 1; // Assuming user_id is 1 for the test
 
         $trajetsController = new TrajetsController();
-        $_POST['depart'] = 1;
-        $_POST['arrivee'] = 2;
-        $_POST['date_depart'] = '2033-10-01';
-        $_POST['heure_depart'] = '10:00';
-        $_POST['date_arrivee'] = '2033-10-01';
-        $_POST['heure_arrivee'] = '12:00';
-        $_POST['nbr_places'] = 4;
-        $_POST['places_dispo'] = 4;
-        $_POST['action'] = 'add';
-        $_POST['contact'] = 1; // Assuming user_id is 1 for the test
         $trajetsController->add();
+
         $this->assertTrue(isset($_SESSION['flash_message']));
-    
         $this->assertEquals('Trajet ajouté avec succès.', $_SESSION['flash_message']);
-        unset($_SESSION['flash_message']);
-    
+        unset($_SESSION['flash_message']);  
+    }
     }
 
-        
 
-}
+
