@@ -46,10 +46,4 @@ class Database {
     public function __wakeup() {}
 }
 
-/* Exemple d'utilisation
-$db = Database::getInstance()->getConnection();
-$query = $db->query("SELECT * FROM utilisateurs");
-$resultats = $query->fetchAll(PDO::FETCH_ASSOC);
-
-print_r($resultats); */
 ?>
