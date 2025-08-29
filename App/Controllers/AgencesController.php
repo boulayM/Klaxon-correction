@@ -31,7 +31,7 @@ class AgencesController {
     return $agence;
     }
 
-    public static function updateAgence($id, $ville) {
+    public static function updateAgence(int $id, string $ville) {
         $pdo = Database::getInstance()->getConnection();
         $stmt = $pdo->prepare('UPDATE agences SET ville = :ville WHERE id = :id');
         $stmt->bindParam(':ville', $ville);
@@ -47,7 +47,7 @@ if ($stmt->execute()) {
 
     
 
-    public static function deleteAgence($id) {
+    public static function deleteAgence(int $id) {
         $pdo = Database::getInstance()->getConnection();
         $stmt = $pdo->prepare('DELETE FROM agences WHERE id = :id');
         $stmt->bindParam(':id', $id);
