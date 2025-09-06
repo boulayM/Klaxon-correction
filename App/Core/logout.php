@@ -28,11 +28,13 @@ if (ini_get("session.use_cookies")) {
  * Détruit la session
  */
 session_destroy();
-require __DIR__.'/../Controllers/AccueilController.php';
 
 /**
  * 
  * Redirectionne vers la page de login
  */
+
+require __DIR__.'/../Controllers/AccueilController.php';
+
 exit();
 ?>
