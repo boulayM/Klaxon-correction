@@ -53,11 +53,6 @@ if ($message): ?>
     ***********************************
     ***********************************
     -->
-    <style>
-    #trajets {
-      display: none; /* Initially hidden */
-    }
-  </style>
     <div class="container mt-5" id="trajets">
         <table class="table table-striped">
             <thead>

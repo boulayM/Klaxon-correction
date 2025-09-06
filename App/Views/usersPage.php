@@ -15,7 +15,7 @@
     <title>TOUCHE PAS AU KLAXON</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../public/CSS/style.css">
+    <link rel="stylesheet" href="public/CSS/style.css">
 </head>
 <header>
     <nav class="navbar">
@@ -27,7 +27,7 @@
                 </button>
                 <div class="align-content-center">                   
                     <?php if (isset($_SESSION['user_data']) && $_SESSION['user_data']): ?>
-                        <span class="text-white me-3">Bienvenue, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
+                        <span class="text-white me-3">Bienvenue, <?php echo htmlspecialchars($_SESSION['user_prenom']) . " " . ($_SESSION['user_name']); ?>!</span>
                     <?php endif; ?>
                 </div>
                 <button class="btn btn-danger btn-lg">
