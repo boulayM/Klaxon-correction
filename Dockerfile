@@ -11,7 +11,7 @@
 # Create a stage for installing app dependencies defined in Composer.
 FROM composer:lts as deps
 
-WORKDIR /app
+WORKDIR /
 
 # If your composer.json file defines scripts that run during dependency installation and
 # reference your application source files, uncomment the line below to copy all the files
