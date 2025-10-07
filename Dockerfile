@@ -1,11 +1,8 @@
-FROM php:8.2-apache
-
-# PHP
-RUN apt-get install -y zlib1g-dev libwebp-dev libpng-dev && docker-php-ext-install gd
-RUN apt-get install libzip-dev -y && docker-php-ext-install zip
-
-# Apache
-RUN a2enmod rewrite
-RUN service apache2 restart
-
+#generate Dockerfile for php 7.4 with apache
+FROM php:7.4-apache
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-enable mysqli
+COPY . /var/www/html/
 EXPOSE 80
+CMD ["apache2-foreground"]
+
