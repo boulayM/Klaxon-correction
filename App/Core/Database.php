@@ -2,6 +2,9 @@
 namespace App\Core;
 use PDO;
 use PDOException;
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__.'/../../Config');
+$dotenv->load();
 
 /**
  * Classe pour gérer la connexion à la base de données
@@ -16,10 +19,8 @@ class Database {
     private function __construct() {
         try {
             // Charge le fichier de configuration avec les informations de connexion
-            $env = require __DIR__.'/../../Config/env.php';
-            $this->connection = new PDO('mysql:host='.$env['db_host'].';dbname='.$env['db_name'].';charset=utf8',
-                    $env['db_user'],
-                    $env['db_pass']);
+            $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8";
+            $this->connection = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS']);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Erreur de connexion : " . $e->getMessage());
