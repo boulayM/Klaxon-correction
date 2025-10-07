@@ -11,12 +11,12 @@
 # Create a stage for installing app dependencies defined in Composer.
 FROM composer:lts as deps
 
-WORKDIR /
+WORKDIR /app
 
 # If your composer.json file defines scripts that run during dependency installation and
 # reference your application source files, uncomment the line below to copy all the files
 # into this layer.
-# COPY . .
+COPY . .
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a bind mounts to composer.json and composer.lock to avoid having to copy them
